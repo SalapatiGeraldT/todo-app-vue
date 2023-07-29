@@ -61,7 +61,7 @@ const deleteTodo = (todoIndex) => {
 </script>
 
 <template>
-  <main class="container mx-auto px-4">
+  <main class=" lg:mx-48 sm:mx-8 mx-0 px-4 ">
     <h1 class="pt-4 text-center text-2xl">Create Todo</h1>
 
     <CustomInput @create-todo="createTodo" />
@@ -69,8 +69,11 @@ const deleteTodo = (todoIndex) => {
     <ul v-if="todoList.length > 0">
       <TodoItem
         v-for="(todo, index) in todoList"
+        
         :todo="todo"
         :index="index"
+
+
         @toggle-complete="toggleTodoComplete"
         @edit-todo="toggleEditTodo"
         @update-todo="updateTodo"

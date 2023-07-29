@@ -62,7 +62,7 @@ const validateInput = () => {
             Submit
         </button> -->
 
-        <CustomButton @click="createTodo()">
+        <CustomButton @click="createTodo()" type="submit" name="Button">
             Create
         </CustomButton>
         <p v-show="todoState.invalid" class=" text-red-700 text-center">{{ todoState.errMsg }}</p>

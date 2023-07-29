@@ -15,7 +15,8 @@
             hover:bg-green-200 hover:text-black text-white py-1 px-6 rounded-md
             
             "
-            type="submit"  >
+            v-bind="$attrs" 
+            >
             <slot></slot>
         </button>
     </div>
