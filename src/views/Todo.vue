@@ -1,5 +1,5 @@
 <script setup>
-import CustomInput from "../components/CustomInput.vue";
+import CustomForm from "../components/CustomForm.vue";
 import CustomButton from "../components/CustomButton.vue";
 import { uid } from "uid";
 import { ref, watch, computed } from "vue";
@@ -38,19 +38,40 @@ const createTodo = (todo) => {
     todo,
     isCompleted: null,
     isEditing: null,
+    invalid: null,
+    errMsg: "",
   });
 };
 
 const toggleTodoComplete = (todoIndex) => {
+  if(todoList.value[todoIndex].todo !== ""){
   todoList.value[todoIndex].isCompleted =
     !todoList.value[todoIndex].isCompleted;
+  }
 };
 
 const toggleEditTodo = (todoIndex) => {
+
+  if(todoList.value[todoIndex].todo !== ""){
+    
   todoList.value[todoIndex].isEditing = !todoList.value[todoIndex].isEditing;
+  }
 };
+
+
 const updateTodo = (todoValue, todoIndex) => {
-  todoList.value[todoIndex].todo = todoValue;
+  todoList.value[todoIndex].invalid = false;
+
+
+  if(todoValue == ""){
+
+    console.log(todoValue)
+    todoList.value[todoIndex].invalid = true;
+    todoList.value[todoIndex].errMsg = "Input required";
+  }else{
+    todoList.value[todoIndex].todo = todoValue;
+  }
+ 
 };
 
 const deleteTodo = (todoIndex) => {
@@ -64,7 +85,7 @@ const deleteTodo = (todoIndex) => {
   <main class=" lg:mx-48 sm:mx-8 mx-0 px-4 ">
     <h1 class="pt-4 text-center text-2xl">Create Todo</h1>
 
-    <CustomInput @create-todo="createTodo" />
+    <CustomForm @create-todo="createTodo" />
 
     <ul v-if="todoList.length > 0">
       <TodoItem
@@ -72,7 +93,7 @@ const deleteTodo = (todoIndex) => {
         
         :todo="todo"
         :index="index"
-
+     
 
         @toggle-complete="toggleTodoComplete"
         @edit-todo="toggleEditTodo"
@@ -80,6 +101,7 @@ const deleteTodo = (todoIndex) => {
         @delete-todo="deleteTodo"
       />
     </ul>
+    
     <div class="flex justify-center text-center text-violet-800">
       <span v-if="todoList.length === 0">Todo List Empty</span>
       <span v-if="todoCompleted && todoList.length > 0">

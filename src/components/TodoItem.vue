@@ -1,5 +1,7 @@
 
 <script setup>
+import CustomInput from './CustomInput.vue';
+import { reactive, defineEmits } from 'vue';
 
 const props = defineProps({
     todo:{
@@ -12,11 +14,17 @@ const props = defineProps({
     index:{
         type: Number,
         required: true,
-    }
+    },
+  
 
 })
 
+// const todoState = reactive({
 
+//   invalid: null,
+//   errMsg: "",
+   
+// });
 
 defineEmits([
     'toggle-complete', 
@@ -24,6 +32,25 @@ defineEmits([
     'update-todo',
     'delete-todo'
 ])
+// const validateInput = (input, index) => {
+//  todoList.value[index].invalid = false;
+//   if (input === "") {
+//    todoList.value[index].invalid = true;
+    
+//    todoList.value[index].errMsg = "Input required";
+//   } else {
+//   }
+// };
+
+// const inputValue = (input, index) => {
+//     todo.value[index].todo = input;
+// };
+
+// const inputValue = (input, index) => {
+//   const updatedTodo = { ...props.todo }; // Create a shallow copy of 'props.todo'
+//   updatedTodo[index].todo = input; // Update the specific todo item with the new input
+// //   emit('update-todo', updatedTodo); // Emit the 'update-todo' event with the updated todo as the payload
+// };
 
 </script>
 
@@ -36,22 +63,42 @@ defineEmits([
                     <div>
                         <label for="todoDoneToggle"></label>
                         <input name="todoDoneToggle"
-                        placeholder="todoDoneToggle"
-                        title="todoDoneToggle"
-                        class=" bg-blue-500 "
-                        :checked="todo.isCompleted"
-                        type="checkbox"
-                        @input="$emit('toggle-complete', index)"
+                            placeholder="todoDoneToggle"
+                            title="todoDoneToggle"
+                            class=" bg-blue-500 "
+                            :checked="todo.isCompleted"
+                            type="checkbox"
+                            @input="$emit('toggle-complete', index)"
                         > 
+                        
                     </div>
                     <div>
                         <label for="updatedInput"></label>
-                        <input 
+                        <!-- <input 
                             name="updatedInput"
-                            type="text" :value="todo.todo" class=" outline-none border-gray-800 border rounded-sm px-2"
-                            v-if="todo.isEditing"
+                            type="text" 
+                            :value="todo.todo" class=" outline-none border-gray-800 border rounded-sm px-2"
+                         
                             @input="$emit('update-todo', $event.target.value, index)"
+                            /> -->
+                            
+                            <CustomInput 
+                            name="updatedInput"
+                            type="text" 
+                            :value="todo.todo"
+                            :index="index"
+                            @input="
+                                [  
+                                
+                                    $emit('update-todo', $event.target.value, index)
+                                ]
+
+                                "
+                            @input-value="(input) => { todo.todo = input }"
+                            v-if="todo.isEditing"
+                            :class="{ 'border-red-700 border-4': todo.invalid }"
                             />
+                       
                         <span 
                         v-else
                         class="
@@ -63,7 +110,9 @@ defineEmits([
                         >
                             {{ todo.todo }}
                         </span>
-
+                        <p v-show="todo.invalid" class="text-red-700 text-center">
+                                {{ todo.errMsg }}
+                            </p>
                     </div>
                 </div>
                 <div class="group-hover:flex hidden space-x-2 items-center">
