@@ -51,12 +51,15 @@ const validateInput = () => {
 
 <template>
     <div class=" flex flex-col py-4 space-y-2">
-        <label for="todoInput" class=" text-center"></label>
   
-        <form @submit.prevent="createTodo(todoState)">
+        <form @submit.prevent="createTodo(todoState)"
+        class=" flex space-x-2"
+        >
 
+          <label for="todoInput" class=" text-center"></label>
 
         <CustomInput 
+        class="w-full"
         required
         name="todoInput"
         placeholder="Enter your todo list"
