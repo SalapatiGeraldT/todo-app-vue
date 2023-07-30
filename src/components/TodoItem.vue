@@ -57,9 +57,11 @@ defineEmits([
 
 
 <template>
-        <li class="group">
-            <div class=" flex flex-wrap justify-between  border-b-2">
-                <div class=" flex content-center space-x-2 p-2">
+        <li class="group ease-in duration-600
+            hover:bg-gradient-to-r from-blue-400 via-transparent to-pink-400">
+            
+            <div class=" flex flex-wrap justify-between  border-b-2 p-2">
+                <div class=" flex content-center items-center space-x-2 ">
                     <div>
                         <label for="todoDoneToggle"></label>
                         <input name="todoDoneToggle"
@@ -115,22 +117,24 @@ defineEmits([
                             </p>
                     </div>
                 </div>
-                <div class="group-hover:flex hidden space-x-2 items-center">
+                <div class="group-hover:flex hidden space-x-2 items-center
+                  justify-center  text-white
+                ">
                     <div v-if="todo.isEditing"
-                    class=" cursor-pointer"
+                    class=" bg-slate-900  p-1 border-1 border-slate-500 border rounded-md cursor-pointer"
                     @click="$emit('edit-todo', index)"
                     >
                         Save
                     </div>
                     <div v-else
-                    class=" cursor-pointer"
+                    class=" bg-slate-900  p-1 border-1 border-slate-500 border rounded-md cursor-pointer"
                     @click="$emit('edit-todo', index)"
                     >
                         Edit
                     </div>
                     <div
                     @click="$emit('delete-todo', todo.id)"
-                    class=" cursor-pointer"
+                    class=" bg-slate-900  p-1 border-1 border-slate-500 border rounded-md cursor-pointer"
                     >
                         Delete
                     </div>
