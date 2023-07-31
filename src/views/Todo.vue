@@ -1,9 +1,9 @@
 <script setup>
 import CustomForm from "../components/CustomForm.vue";
-import CustomButton from "../components/CustomButton.vue";
 import { uid } from "uid";
 import { ref, watch, computed } from "vue";
 import TodoItem from "../components/TodoItem.vue";
+import gsap from 'gsap'
 
 const todoList = ref([]);
 
@@ -33,7 +33,7 @@ const setTodoListLocalStorage = () => {
 };
 
 const createTodo = (todo) => {
-  todoList.value.push({
+  todoList.value.unshift({
     id: uid(),
     todo,
     isCompleted: null,
@@ -79,6 +79,28 @@ const deleteTodo = (todoIndex) => {
     todoList.value = todoList.value.filter((todo) => todo.id !== todoIndex);
   }
 };
+
+const beforeEnter=(el)=>{
+  el.style.opacity=0;
+  el.style.transform ='translateY(50px)';
+
+}
+const enter=(el, done)=>{
+  gsap.to(el,{
+    opacity:1,
+    
+    y:0,
+    duration:.3,
+    onComplete:done,
+    delay:el.dataset.index * 0.2,
+    ease:'bounce.out'
+  })
+}
+const beforeLeave=(el)=>{
+  el.style.opacity=0;
+  el.style.transform ='translateY(50px)';
+
+}
 </script>
 
 <template>
@@ -87,26 +109,84 @@ const deleteTodo = (todoIndex) => {
 
     <CustomForm @create-todo="createTodo" />
 
-    <ul v-if="todoList.length > 0">
-      <TodoItem
+
+    <div  v-if="todoList.length > 0" class="px-2 ">
+      <!-- name="list"  -->
+    <transition-group 
+      tag="ul" 
+      name="list"
+      appear 
+
+      @before-enter="beforeEnter"
+      @enter="enter"
+      @before-leave="beforeLeave"
+      @leave="leave"
+      class=" relative">
+      <TodoItem 
         v-for="(todo, index) in todoList"
-        
+        :data-index="index"
         :todo="todo"
         :index="index"
-     
+        :key="todo.id"
 
         @toggle-complete="toggleTodoComplete"
         @edit-todo="toggleEditTodo"
         @update-todo="updateTodo"
         @delete-todo="deleteTodo"
       />
-    </ul>
-    
+    </transition-group>
+    </div>
+    <div  v-else class="flex justify-center text-center text-violet-800">
+     Todo List Empty
+    </div>
+
     <div class="flex justify-center text-center text-violet-800">
-      <span v-if="todoList.length === 0">Todo List Empty</span>
       <span v-if="todoCompleted && todoList.length > 0">
         Well Done! <br>Todo List Completed.
       </span>
     </div>
   </main>
 </template>
+
+
+<style scoped>
+/* .list-enter-from{
+  opacity: 0;
+  transform: scale(0);
+}
+.list-enter-to{
+  opacity: 1;
+  transform: scale(1);
+}
+.list-enter-active{
+  transition: all 0.5s ease;
+}
+.list-leave-from{
+  opacity: 1;
+  transform: scale(1);
+}
+.list-leave-to{
+  opacity: 0;
+  transform: scale(0.6);
+}
+.list-leave-active{
+  transition: all 0.5s ease;
+  position: absolute;
+} */
+
+.list-move{
+  transition: all 0.5s ease;
+}
+
+
+/* 
+.todo-switch-enter-from,
+.todo-switch-leave-to{
+  opacity: 0;
+  transform: translateY(20px);
+}
+.todo-switch-enter-active,
+.todo-witch-leave-active{
+  transition: all 0.5s ease;
+} */
+</style>

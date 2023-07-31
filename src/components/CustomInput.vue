@@ -34,7 +34,7 @@ const emit = defineEmits(["input-value"]);
 <template>
   <input
 
-    class="p-1 outline-none rounded-sm hover:bg-green-200 focus:ring-2 border-green-800 border focus:ring-green-900"
+    class="mb-1 px-1 outline-none rounded-sm hover:bg-green-200 focus:ring-2 border-green-800 border focus:ring-green-900"
     :value="value" @input="$emit('input-value', $event.target.value, index)"
 
     v-bind="$attrs"
