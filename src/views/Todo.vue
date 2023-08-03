@@ -111,16 +111,16 @@ const beforeLeave=(el)=>{
 
 
     <div  v-if="todoList.length > 0" class="px-2 ">
-      <!-- name="list"  -->
+ 
+      <!-- @before-enter="beforeEnter"
+      @enter="enter"
+      @before-leave="beforeLeave"
+      @leave="leave" -->
     <transition-group 
       tag="ul" 
       name="list"
       appear 
 
-      @before-enter="beforeEnter"
-      @enter="enter"
-      @before-leave="beforeLeave"
-      @leave="leave"
       class=" relative">
       <TodoItem 
         v-for="(todo, index) in todoList"
@@ -150,7 +150,7 @@ const beforeLeave=(el)=>{
 
 
 <style scoped>
-/* .list-enter-from{
+.list-enter-from{
   opacity: 0;
   transform: scale(0);
 }
@@ -172,7 +172,7 @@ const beforeLeave=(el)=>{
 .list-leave-active{
   transition: all 0.5s ease;
   position: absolute;
-} */
+}
 
 .list-move{
   transition: all 0.5s ease;
